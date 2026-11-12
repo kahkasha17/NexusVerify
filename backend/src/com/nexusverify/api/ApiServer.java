@@ -39,8 +39,12 @@ public class ApiServer {
 
     public static void main(String[] args) throws IOException {
 
-        HttpServer server = HttpServer.create(
-                new InetSocketAddress(8080), 0);
+        int port = Integer.parseInt(
+        System.getenv().getOrDefault("PORT", "8080")
+);
+
+HttpServer server = HttpServer.create(
+        new InetSocketAddress("0.0.0.0", port), 0);
 
         server.createContext("/api/verify", ApiServer::verify);
         server.createContext("/api/history", ApiServer::history);
@@ -50,8 +54,8 @@ public class ApiServer {
         System.out.println("==================================");
         System.out.println("       NEXUS VERIFY API");
         System.out.println("==================================");
-        System.out.println("Server running on port 8080");
-        System.out.println("API: http://localhost:8080");
+        System.out.println("Server running on port " + port);
+System.out.println("API: http://localhost:" + port);
         System.out.println("==================================");
     }
 
