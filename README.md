@@ -95,7 +95,7 @@ Make sure the following software is installed:
 ### 1. Clone the Repository
 
 ```bash
-git clone <YOUR_GITHUB_REPOSITORY_URL>
+git clone https://github.com/kahkasha17/NexusVerify.git
 cd NexusVerifiy
 ```
 
@@ -197,10 +197,18 @@ The file is used to maintain previously submitted verification records.
 
 ## Author
 
-**NEXUS VERIFY**
+**Kahkasha Khan**
 
-A project developed as part of academic work to explore digital content verification using Java, React, and rule-based analysis.
+GitHub: [@Kahkasha17](https://github.com/Kahkasha17)
 
----
+Developed as an academic project using Java, React, and rule-based analysis.
 
-*Disclaimer: NEXUS VERIFY is an educational project. Its results should be treated as preliminary risk indicators and not as definitive proof of authenticity, misinformation, or security.*
+## Contributions
+
+Contributions are welcome! If you would like to contribute to NEXUS VERIFY, follow these steps:
+
+1. Fork this repository.
+2. Clone your forked repository:
+
+   ```bash
+   git clone https://github.com/kahkasha17/NexusVerify.git
