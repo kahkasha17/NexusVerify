@@ -3,6 +3,12 @@
 
 NEXUS VERIFY is a web-based application designed to analyze digital content and identify potentially suspicious information using rule-based verification techniques. It helps users assess the risk associated with news content, SMS/email messages, and URLs.
 
+## Live Demo
+
+🚀 **Live Website:** [NEXUS VERIFY](https://nexus-verify-eight.vercel.app/)
+
+**Backend API:** https://nexus-verify-backend.onrender.com
+
 ## Features
 
 - **Fake News Detection:** Analyzes news content using suspicious keywords and predefined rules.
