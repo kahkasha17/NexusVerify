@@ -1,0 +1,6 @@
+Input: Congratulations! You have won a lottery. Click this link immediately to claim your prize.
+Category: LOTTERY / PRIZE SCAM
+Risk Score: 80
+Suspicious: true
+Status: HIGH RISK: Potential scam or phishing detected!
+----------------------------------------
