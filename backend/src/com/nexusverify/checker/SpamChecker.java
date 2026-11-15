@@ -22,6 +22,9 @@ public class SpamChecker implements VerificationChecker {
         spamKeywords.put("claim your prize", 25);
         spamKeywords.put("cash prize", 25);
         spamKeywords.put("free recharge", 20);
+        spamKeywords.put("you have won", 25);
+        spamKeywords.put("click here", 15);
+        spamKeywords.put("claim your", 15);
 
         // Bank Phishing Scam
         spamKeywords.put("bank account", 25);
@@ -31,6 +34,27 @@ public class SpamChecker implements VerificationChecker {
         spamKeywords.put("bank details", 25);
         spamKeywords.put("kyc update", 30);
         spamKeywords.put("otp", 20);
+
+
+        // Job and Scholarship Scams
+        spamKeywords.put("registration fee", 35);
+        spamKeywords.put("processing fee", 35);
+        spamKeywords.put("work from home", 15);
+        spamKeywords.put("scholarship approved", 15);
+
+        // Prize and Promotional Scams
+        spamKeywords.put("free prize", 25);
+        spamKeywords.put("claim your free", 25);
+        spamKeywords.put("claim your coupon", 15);
+        spamKeywords.put("limited time offer", 15);
+        spamKeywords.put("click here to claim", 25);
+
+        // Password and Account Phishing
+        spamKeywords.put("enter your password", 45);
+        spamKeywords.put("account will be suspended", 30);
+        spamKeywords.put("share this otp", 40);
+        spamKeywords.put("share your otp", 40);
+
 
         // Other Suspicious Messages
         spamKeywords.put("claim now", 20);
@@ -89,30 +113,66 @@ public class SpamChecker implements VerificationChecker {
             }
         }
 
+
         // Rule 4: Scam category identification
         String category;
 
-        if (containsAny(text,
-                "lottery", "you won", "congratulations",
-                "claim your prize", "cash prize",
-                "free recharge")) {
+        if (containsAny(text, "scholarship", "education grant")
+                && containsAny(text, "processing fee",
+                               "registration fee")) {
+
+            category = "SCHOLARSHIP SCAM";
+
+        } else if (containsAny(text, "job", "work from home",
+                              "employment")
+                && containsAny(text, "registration fee",
+                               "processing fee", "pay rs")) {
+
+            category = "JOB SCAM";
+
+        } else if (containsAny(text,
+                "enter your password",
+                "share your password",
+                "account will be suspended",
+                "password reset")
+                && containsAny(text,
+                "click", "verify", "enter",
+                "immediately", "urgent")) {
+
+            category = "EMAIL PHISHING";
+
+        } else if (containsAny(text,
+                "lottery", "cash prize", "free prize",
+                "you won", "you have won",
+                "claim your prize")
+                && containsAny(text,
+                "claim", "click", "won", "prize")) {
 
             category = "LOTTERY / PRIZE SCAM";
 
         } else if (containsAny(text,
-                "bank account", "account blocked",
-                "will be blocked", "verify your account",
-                "bank details", "kyc update", "otp")) {
+        "bank account", "kyc update",
+        "bank details", "otp")
+        && containsAny(text,
+        "blocked", "verify", "share",
+        "urgent", "immediately")
+        && !containsAny(text,
+        "do not share", "don't share",
+        "never share")) {
 
             category = "BANK PHISHING SCAM";
 
+
         } else if (containsAny(text,
-                "electricity bill unpaid")) {
+                "electricity bill unpaid",
+                "electricity disconnected",
+                "power supply disconnected")) {
 
             category = "BILL PAYMENT SCAM";
 
         } else if (containsAny(text,
-                "bit.ly", "tinyurl.com", "t.co", "cutt.ly")) {
+                "bit.ly", "tinyurl.com",
+                "t.co", "cutt.ly")) {
 
             category = "SUSPICIOUS LINK MESSAGE";
 
@@ -121,6 +181,7 @@ public class SpamChecker implements VerificationChecker {
             category = isEmail ? "SPAM EMAIL" : "SPAM SMS";
         }
 
+        
         // Rule 5: Final risk calculation
         int finalScore = Math.min(score, 100);
 
@@ -143,7 +204,17 @@ public class SpamChecker implements VerificationChecker {
             statusMessage =
                 "LOW RISK: No major suspicious patterns detected.";
 
-            category = isEmail ? "NORMAL EMAIL" : "NORMAL SMS";
+            // Avoid showing a confirmed scam label for low risk
+            if (category.equals("SPAM EMAIL") ||
+                category.equals("SPAM SMS")) {
+
+                category = isEmail ? "NORMAL EMAIL" : "NORMAL SMS";
+
+            } else {
+
+                category = "POTENTIAL " + category;
+
+            }
         }
 
         return new VerificationResult(
@@ -154,10 +225,10 @@ public class SpamChecker implements VerificationChecker {
         );
     }
 
+    // Helper method for checking multiple keywords
     private boolean containsAny(String text, String... keywords) {
 
         for (String keyword : keywords) {
-
             if (text.contains(keyword)) {
                 return true;
             }
@@ -166,3 +237,4 @@ public class SpamChecker implements VerificationChecker {
         return false;
     }
 }
+   
